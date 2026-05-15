@@ -4,16 +4,6 @@ from datetime import datetime, date
 import bcrypt
 import re
 
-# from flask import Flask, render_template, request, redirect, session
-# from flask_sqlalchemy import SQLAlchemy     #import db 
-# from datetime import datetime, date   
-# import bcrypt            
-# import re
-    
-# # from flask import jsonify, request
-# # from app import app, db, Todo
-# from datetime import date
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///D:/python/todo.db"   #config db
 db = SQLAlchemy(app)
