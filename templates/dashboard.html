@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="container-fluid py-5" style="background-color:#0f172a; min-height:100vh;">
+
+    <h1 class="text-center mb-5" style="color: azure;">Task Management Dashboard</h1>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 bg-primary text-white">
+                <div class="card-body text-center">
+                    <h4>Total Tasks</h4>
+                    <h1>{{ total_tasks }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 bg-warning text-dark">
+                <div class="card-body text-center">
+                    <h4>Pending</h4>
+                    <h1>{{ pending_tasks }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 bg-success text-white">
+                <div class="card-body text-center">
+                    <h4>Completed</h4>
+                    <h1>{{ completed_tasks }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 bg-danger text-white">
+                <div class="card-body text-center">
+                    <h4>Overdue</h4>
+                    <h1>{{ overdue_tasks }}</h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PIE CHARTS -->
+    <div class="row mt-5">
+
+        <!-- TASK OVERVIEW -->
+        <div class="col-md-6">
+            <div class="card shadow border-0 p-3" style="background-color:#20325d" ;>
+
+                <h3 class="text-center mb-4" style="color: azure;">
+                    Tasks Overview
+                </h3>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
+                <script>
+                    const xlabel = JSON.parse('{{ label | tojson | safe }}');
+                    const ydata = JSON.parse('{{ data | tojson | safe }}');
+                    const data = {
+                        xlabel: xlabel,
+                        barColors: [
+                            "#ffc107",
+                            "#dc3545",
+                            "#198754"                       
+                        ],
+                        ychartdata: ydata
+                    };
+
+                    new Chart("myChart", {
+                        type: "pie",
+                        data: {
+                            labels: data.xlabel,
+                            datasets: [{
+                                backgroundColor: data.barColors,
+                                data: data.ychartdata
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: "Task"
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+
+         <!-- Pending Priority Breakdown -->
+        <div class="col-md-6">
+            <div class="card shadow border-0 p-3" style="background-color:#20325d" ;>
+
+                <h3 class="text-center mb-4" style="color: azure;">
+                    Pending Priority Breakdown
+                </h3>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+                <canvas id="my_Chart" style="width:100%;max-width:600px"></canvas>
+
+                <script>
+                    const x_label = JSON.parse('{{ label1 | tojson | safe }}');
+                    const y_data = JSON.parse('{{ data1 | tojson | safe }}');
+                    const datas = {
+                        x_label: x_label,
+                        barColors: [
+                            "#198754",
+                            "#ffc107",
+                            "#dc3545"                                                   
+                        ],
+                        y_chartdata: y_data
+                    };
+
+                    new Chart("my_Chart", {
+                        type: "pie",
+                        data: {
+                            labels: datas.x_label,
+                            datasets: [{
+                                backgroundColor: datas.barColors,
+                                data: datas.y_chartdata
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: "Task"
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

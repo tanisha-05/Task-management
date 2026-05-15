@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>TO DO</title>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/add">Task Manager</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/add">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
+                </li>
+
+            </ul>
+            <a href="\logout"><button class="btn btn-primary">Logout</button></a>
+        </div>
+    </div>
+</nav>
+    
+<style>
+body{
+    background-color:#0f172a;
+}
+</style>
+</head>
+
+<body>
+<div class="container my-3 p-4 rounded" style="background-color:#1e293b; color:white;">
+    <h2>Add a Task</h2>
+    <form action="/add" method="POST">
+        <div class="container my-3">
+            <div class="row g-3 align-items-end">
+
+                <!-- Title -->
+                <div class="col-md-3">
+                    <b><label class="form-label">Task Title</label></b>
+                    <input type="text" class="form-control" name="title" placeholder="Enter a Task" required>
+                </div>
+
+                <!-- Description -->
+                <div class="col-md-3">
+                    <b><label class="form-label">Description</label></b>
+                    <input type="text" class="form-control" name="description" placeholder="Enter task Description"
+                        required>
+                </div>
+
+                <!-- Due Date -->
+                <div class="col-md-2">
+                    <b><label class="form-label">Due Date</label></b>
+                    <input type="date" class="form-control" name="due_date" required>
+                </div>
+
+                <!-- Priority -->
+                <div class="col-md-2">
+                    <b><label class="form-label">Priority</label></b>
+
+                    <select class="form-select" name="priority" required>
+                        <option value="" disabled selected>Select Priority</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-2">
+                    <b><label class="form-label">Status</label></b>
+
+                    <select class="form-select" name="status" required>
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Complete">Complete</option>
+                    </select>
+                </div>
+
+                <!-- Button -->
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        Add Task
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container my-3" style="background-color:#1e293b; color:white;">
+    <h2> Your Task</h2>
+
+    {% if allTodo|length == 0 %}
+    Add your first Task
+
+    {% else %}
+    <table class="table" >
+        <thead>
+            <tr class="table-primary text-white">
+                <th scope="col">SNo</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for todo in allTodo %}
+            <tr class="table-dark">
+                <th scope="row">{{loop.index}}</th>
+                <td>{{todo.title}}</td>
+                <td>{{todo.description}}</td>
+                <td>{{todo.due_date}}</td>
+                <td>{{todo.priority}}</td>
+                <td>{{todo.status}}</td>
+                <td>
+                    <div class="d-grid gap-2 d-md-block">
+                        <a href="/update/{{todo.sno}}" class="btn btn-outline-light btn-sm">Update</a>
+                        <a href="/complete/{{todo.sno}}" class="btn btn-outline-success btn-sm">Complete</a>
+                        <a href="/delete/{{todo.sno}}" class="btn btn-outline-danger btn-sm">Delete</a>
+                </td>
+</div>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endif %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous">
+</script>
+
+</body>
+ 
+</html>
